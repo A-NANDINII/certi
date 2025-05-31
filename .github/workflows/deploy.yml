@@ -1,0 +1,46 @@
+name: Node.js CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install Backend Dependencies
+      working-directory: ./backend
+      run: npm install
+
+    - name: Install Frontend Dependencies
+      working-directory: ./frontend
+      run: npm install
+
+    - name: Build Frontend
+      working-directory: ./frontend
+      run: npm run build
+
+    - name: Lint Check (optional)
+      working-directory: ./backend
+      run: npx eslint .
+
+    - name: Run Backend Test (optional)
+      working-directory: ./backend
+      run: echo "No backend tests configured"  # Replace with test command
+
+    - name: Archive Build Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: frontend-build
+        path: frontend/build
