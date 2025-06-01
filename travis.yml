@@ -1,0 +1,42 @@
+language: node_js
+node_js:
+  - "20"
+
+services:
+  - docker
+
+env:
+  global:
+    - FRONTEND_DIR=frontend
+    - BACKEND_DIR=backend
+
+before_install:
+  - echo "Starting Travis CI build..."
+
+install:
+  # Install backend dependencies
+  - cd $BACKEND_DIR
+  - npm install
+  - cd ..
+
+  # Install frontend dependencies
+  - cd $FRONTEND_DIR
+  - npm install
+  - cd ..
+
+script:
+  # Build frontend
+  - cd $FRONTEND_DIR
+  - npm run build
+  - cd ..
+
+  # Run backend tests (optional)
+  - cd $BACKEND_DIR
+  # - npm test  # uncomment if you write tests
+  - cd ..
+
+deploy:
+  provider: script
+  script: echo "Deploy script goes here (e.g., Docker push, Heroku deploy, etc.)"
+  on:
+    branch: main
