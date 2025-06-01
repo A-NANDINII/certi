@@ -40,7 +40,7 @@ jobs:
       run: echo "No backend tests configured"  # Replace with test command
 
     - name: Archive Build Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: frontend-build
         path: frontend/build
