@@ -31,16 +31,20 @@ jobs:
       working-directory: ./frontend
       run: npm run build
 
-    - name: Lint Check (optional)
+    - name: Downgrade ESLint to v8 (temporary fix for config error)
+      working-directory: ./backend
+      run: npm install eslint@8 --save-dev
+
+    - name: Lint Check
       working-directory: ./backend
       run: npx eslint .
 
-    - name: Run Backend Test (optional)
+    - name: Run Backend Test
       working-directory: ./backend
-      run: echo "No backend tests configured"  # Replace with test command
+      run: echo "No backend tests configured"  # Replace this later with your test command
 
     - name: Archive Build Artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: frontend-build
         path: frontend/build
